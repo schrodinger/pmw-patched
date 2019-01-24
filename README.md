@@ -7,7 +7,7 @@ repository hosts a curated copy of Pmw with relevant patches applied.
 ## Installation
 
 ```python
-setup.py install
+python setup.py install
 ```
 
 ## Copyright

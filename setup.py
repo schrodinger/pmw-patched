@@ -9,4 +9,7 @@ setup(
         'PmwBlt',
         'PmwColor',
     ],
+    url='https://github.com/schrodinger/pmw-patched',
+    description='Python megawidgets with essential patches applied',
+    license='MIT',
 )

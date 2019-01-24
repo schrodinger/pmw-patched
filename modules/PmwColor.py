@@ -10,7 +10,7 @@ _PI = math.pi
 _TWO_PI = _PI * 2
 _THIRD_PI = _PI / 3
 _SIXTH_PI = _PI / 6
-_MAX_RGB = float(256 * 256 - 1) # max size of rgb values returned from Tk
+_MAX_RGB = 256 * 256 - 1 # max size of rgb values returned from Tk
 
 def setscheme(root, background=None, **kw):
     root = root._root()
@@ -346,13 +346,13 @@ def bordercolors(root, colorName):
     lightRGB = []
     darkRGB = []
     for value in name2rgb(root, colorName, 1):
-        value40pc = (14 * value) / 10
+        value40pc = (14 * value) // 10
         if value40pc > _MAX_RGB:
             value40pc = _MAX_RGB
-        valueHalfWhite = (_MAX_RGB + value) / 2;
+        valueHalfWhite = (_MAX_RGB + value) // 2;
         lightRGB.append(max(value40pc, valueHalfWhite))
 
-        darkValue = (60 * value) / 100
+        darkValue = (60 * value) // 100
         darkRGB.append(darkValue)
 
     return (

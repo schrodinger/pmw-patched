@@ -1,6 +1,10 @@
 # Python interface to some of the commands of the 2.4 version of the
 # BLT extension to tcl.
 
+from __future__ import absolute_import
+from __future__ import print_function
+from __future__ import division
+
 import string
 import types
 import tkinter

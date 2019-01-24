@@ -1,4 +1,15 @@
 
+from __future__ import absolute_import
+from __future__ import print_function
+from __future__ import division
+
+import sys
+if sys.version_info[0] < 3:
+    import Tkinter as tkinter
+    sys.modules['tkinter'] = tkinter
+else:
+    import tkinter
+
 import PmwColor
 Color = PmwColor
 del PmwColor
@@ -1031,8 +1042,7 @@ class MegaToplevel(MegaArchetype):
         self.defineoptions(kw, optiondefs)
 
         # Initialise the base class (after defining the options).
-        #MegaArchetype.__init__(self, parent, tkinter.Toplevel)
-        super().__init__(parent, tkinter.Toplevel)
+        MegaArchetype.__init__(self, parent, tkinter.Toplevel)
         
         # Initialise instance.
 

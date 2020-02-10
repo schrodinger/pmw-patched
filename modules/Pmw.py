@@ -1221,7 +1221,7 @@ class MegaToplevel(MegaArchetype):
 
         pushgrab(self._hull, globalMode, self.deactivate)
         command = self['activatecommand']
-        if isinstance(command, collections.Callable):
+        if callable(command):
             command()
         self.wait_variable(self._wait)
 
@@ -1239,7 +1239,7 @@ class MegaToplevel(MegaArchetype):
         popgrab(self._hull)
 
         command = self['deactivatecommand']
-        if isinstance(command, collections.Callable):
+        if callable(command):
             command()
 
         self.withdraw()
@@ -1429,7 +1429,7 @@ def _addRootToToplevelBusyInfo():
         _addToplevelBusyInfo(root)
 
 def busycallback(command, updateFunction = None):
-    if not isinstance(command, collections.Callable):
+    if not callable(command):
         raise ValueError('cannot register non-command busy callback %s %s' % \
                 (repr(command), type(command)))
     wrapper = _BusyWrapper(command, updateFunction)
@@ -1696,7 +1696,7 @@ class _BusyWrapper:
 
         # Call update before hiding the busy windows to clear any
         # events that may have occurred over the busy windows.
-        if isinstance(self._updateFunction, collections.Callable):
+        if callable(self._updateFunction):
             self._updateFunction()
 
         hidebusycursor()
@@ -2142,7 +2142,7 @@ class Dialog(MegaToplevel):
             return
 
         command = self['command']
-        if isinstance(command, collections.Callable):
+        if callable(command):
             return command(name)
         else:
             if self.active():
@@ -2559,7 +2559,7 @@ class Balloon(MegaToplevel):
     def showstatus(self, statusHelp):
         if self['state'] in ('status', 'both'):
             cmd = self['statuscommand']
-            if isinstance(cmd, collections.Callable):
+            if callable(cmd):
                 cmd(statusHelp)
 
     def clearstatus(self):
@@ -3125,7 +3125,7 @@ class EntryField(MegaWidget):
     def _checkValidateFunction(self, function, option, validator):
         # Raise an error if 'function' is not a function or None.
 
-        if function is not None and not isinstance(function, collections.Callable):
+        if function is not None and not callable(function):
             extraValidators = self['extravalidators']
             extra = list(extraValidators.keys())
             extra.sort()
@@ -3139,7 +3139,7 @@ class EntryField(MegaWidget):
 
     def _executeCommand(self, event = None):
         cmd = self['command']
-        if isinstance(cmd, collections.Callable):
+        if callable(cmd):
             if event is None:
                 # Return result of command for invoke() method.
                 return cmd()
@@ -3170,7 +3170,7 @@ class EntryField(MegaWidget):
             return valid
 
         cmd = self['modifiedcommand']
-        if isinstance(cmd, collections.Callable) and previousText != self._entryFieldEntry.get():
+        if callable(cmd) and previousText != self._entryFieldEntry.get():
             cmd()
         return valid
 
@@ -3218,7 +3218,7 @@ class EntryField(MegaWidget):
         if valid == ERROR:
             # The entry is invalid.
             cmd = self['invalidcommand']
-            if isinstance(cmd, collections.Callable):
+            if callable(cmd):
                 cmd()
             if self.hulldestroyed():
                 # The invalidcommand destroyed us.
@@ -5057,7 +5057,7 @@ class OptionMenu(MegaWidget):
         self.setvalue(text)
 
         command = self['command']
-        if isinstance(command, collections.Callable):
+        if callable(command):
             return command(text)
 
 ######################################################################
@@ -5505,7 +5505,7 @@ class PanedWidget(MegaWidget):
 
         # Invoke the callback command
         cmd = self['command']
-        if isinstance(cmd, collections.Callable):
+        if callable(cmd):
             cmd(list(map(lambda x, s = self: s._size[x], self._paneNames)))
 
     def _plotHandles(self):
@@ -5965,7 +5965,7 @@ class RadioSelect(MegaWidget):
         if self._singleSelect:
             self.__setSingleValue(name)
             command = self['command']
-            if isinstance(command, collections.Callable):
+            if callable(command):
                 return command(name)
         else:
             # Multiple selections
@@ -5986,7 +5986,7 @@ class RadioSelect(MegaWidget):
                 state = 1
 
             command = self['command']
-            if isinstance(command, collections.Callable):
+            if callable(command):
                 return command(name, state)
 
 ######################################################################
@@ -7080,7 +7080,7 @@ class ScrolledListBox(MegaWidget):
 
             command = self['selectioncommand']
 
-        if isinstance(command, collections.Callable):
+        if callable(command):
             command()
 
     # Need to explicitly forward this to override the stupid
@@ -7631,7 +7631,7 @@ class HistoryText(ScrolledText):
             # so allow the 'Next' button to go to the entry after this one.
             self._pastIndex = self._currIndex
             nextState = 'normal'
-        if isinstance(historycommand, collections.Callable):
+        if callable(historycommand):
             historycommand('normal', nextState)
 
         # Create the new history entry.
@@ -7698,7 +7698,7 @@ class HistoryText(ScrolledText):
                 if self._currIndex == 0:
                     prevstate = 'disabled'
             historycommand = self['historycommand']
-            if isinstance(historycommand, collections.Callable):
+            if callable(historycommand):
                 historycommand(prevstate, nextstate)
             currentEntry =  self._list[self._currIndex]
         else:
@@ -8181,12 +8181,12 @@ class TimeCounter(MegaWidget):
 
     def _invoke(self, event):
         cmd = self['command']
-        if isinstance(cmd, collections.Callable):
+        if callable(cmd):
             cmd()
 
     def invoke(self):
         cmd = self['command']
-        if isinstance(cmd, collections.Callable):
+        if callable(cmd):
             return cmd()
 
     def destroy(self):
@@ -8529,7 +8529,7 @@ class ComboBox(MegaWidget):
             self._entryfield.setentry(item)
 
         cmd = self['selectioncommand']
-        if isinstance(cmd, collections.Callable):
+        if callable(cmd):
             if event is None:
                 # Return result of selectioncommand for invoke() method.
                 return cmd(item)
@@ -8916,7 +8916,7 @@ class Counter(MegaWidget):
 
         if datatype in _counterCommands:
             self._counterCommand = _counterCommands[datatype]
-        elif isinstance(datatype, collections.Callable):
+        elif callable(datatype):
             self._counterCommand = datatype
         else:
             validValues = list(_counterCommands.keys())
